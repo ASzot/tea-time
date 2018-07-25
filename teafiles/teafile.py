@@ -22,13 +22,11 @@
 # W0122:730,8:TeaFile._attachwritemethod: Use of the exec statement
 # C0301:172,0: Line too long (104/80) - maybe trim docstrings later for terminal users
 
-print('Imported')
-
 import struct
 import uuid
 from io import BytesIO
 from collections import namedtuple
-from ithilien.teafiles.clockwise import DateTime
+from teafiles.clockwise import DateTime
 
 # if set to true, time fields are returned as instances of clockwise.DateTime, otherwise
 USE_TIME_DECORATION = True

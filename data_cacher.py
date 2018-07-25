@@ -1,9 +1,17 @@
-from ithilien.teafiles import TeaFile, DateTime
-import util.time_helper as th
+from teafiles import TeaFile, DateTime
 import os
 import os.path as osp
 import numpy as np
 import pandas as pd
+
+TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+DAILY_TIME_FORMAT = '%Y-%m-%d'
+
+def mk_str(s, daily=False):
+    if daily:
+        return s.strftime(DAILY_TIME_FORMAT)
+    else:
+        return s.strftime(TIME_FORMAT)
 
 
 class DataCacher(object):
@@ -163,7 +171,7 @@ class DataCacher(object):
 
         self.__pos_lookup = {}
         for i, time in enumerate(self.__dates):
-            self.__pos_lookup[th.mk_str(time, daily=True)] = i
+            self.__pos_lookup[mk_str(time, daily=True)] = i
 
     def get_symbs(self, symbs, dt, lookback):
         assert lookback > 0, 'Lookback must be greater than 0. If you want only one bar of data set it to 1.'
@@ -175,7 +183,7 @@ class DataCacher(object):
         # extendible to more time ranges.
         use_dt = localized_dt
 
-        use_dt = th.mk_str(use_dt, daily=True)
+        use_dt = mk_str(use_dt, daily=True)
         # Check if we will need a refresh.
         if use_dt not in self.__pos_lookup or self.__pos_lookup[use_dt] - lookback < 0:
             self.__refresh(symbs, use_dt, lookback)
@@ -201,7 +209,7 @@ class DataCacher(object):
 
         # Look ahead bias.
         for check_date in result.major_axis:
-            check_date_str = th.mk_str(check_date, daily=True)
+            check_date_str = mk_str(check_date, daily=True)
             if check_date_str > use_dt:
                 raise ValueError('Look ahead bias')
             elif check_date_str == use_dt:

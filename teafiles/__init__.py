@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from ithilien.teafiles.teafile import *
+from teafiles.teafile import *
 __all__ = ["TeaFile"]
 
-from ithilien.teafiles.clockwise import *
+from teafiles.clockwise import *
 __all__.extend(["DateTime", "Duration", "range", "rangen"])
 
 version = "0.7.4"
