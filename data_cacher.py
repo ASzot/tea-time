@@ -98,26 +98,28 @@ class DataCacher(object):
             # Get only the day part of the time
             cur_day = str(row.time).split(' ')[0]
 
-            if cur_day != dt:
-                self.__cache[symb] = []
+            # Sequential reads could be optimized
+            #if cur_day != dt:
+            self.__cache[symb] = []
 
-                lookahead = lookbehind + self.__cache_count
-                start_idx = idx - lookbehind
-                check_dates = list(self.cal.schedule.index[start_idx:start_idx +
-                        lookahead])
-                start_dt = check_dates[0]
-                lookahead = len(check_dates)
+            lookahead = lookbehind + self.__cache_count
+            start_idx = idx - lookbehind
+            check_dates = list(self.cal.schedule.index[start_idx:start_idx +
+                    lookahead])
+            start_dt = check_dates[0]
+            lookahead = len(check_dates)
 
-                self.__add_data_search(symb, tf, start_dt, check_dates, lookahead)
-            else:
-                # Minus one because we need to append the row we just read.
-                self.__cache[symb] = self.__cache[symb][-(lookbehind - 1):]
+            self.__add_data_search(symb, tf, start_dt, check_dates, lookahead)
+            #else:
+            #    self.__log('Fetching sequentailly', DataCacher.LOG_INFO)
+            #    # Minus one because we need to append the row we just read.
+            #    self.__cache[symb] = self.__cache[symb][-(lookbehind - 1):]
 
-                lookahead = self.__cache_count
-                check_dates = list(self.cal.schedule.index[idx-lookbehind:idx +
-                        lookahead])
+            #    lookahead = self.__cache_count
+            #    check_dates = list(self.cal.schedule.index[idx-lookbehind:idx +
+            #            lookahead])
 
-                self.__add_data(symb, tf, check_dates, lookahead, row)
+            #    self.__add_data(symb, tf, check_dates, lookahead, row)
 
             if symb in self.__cache and np.isnan(self.__cache[symb][:lookbehind]).any():
                 self.__remove_key(symb)
