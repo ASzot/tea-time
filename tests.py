@@ -166,8 +166,8 @@ def test_pd_random_access(dt, other_dt, window):
     return elapsed
 
 cal = get_calendar('NYSE')
-#create_test_files(cal, 4000)
-#convert(CSV_DIR, TEA_DIR)
+create_test_files(cal, 4000)
+convert(CSV_DIR, TEA_DIR)
 dt = cal.schedule.index[start_index + 50]
 
 window = 30
